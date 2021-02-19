@@ -1,4 +1,4 @@
-### SIRModelDeployement
+### SIRModelDeployment
 #### This repo presents you the model deployment solution on aws. The model can be used to simulate covid-19 scenarios across globe.
 
 ### Front end is made using HTML and CSS, backend is made using Flask. The entire model is deployed on AWS and is being used for research.
