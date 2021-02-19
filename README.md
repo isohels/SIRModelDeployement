@@ -39,4 +39,5 @@
  
   4 day recovery rate 1/4 = 0.25
 
-
+<img src='./static/images/homeroute.PNG'>
+<img src='./static/images/output.PNG'>
