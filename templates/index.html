@@ -1,0 +1,54 @@
+<html >
+<!--From https://codepen.io/frytyler/pen/EGdtg-->
+<head>
+  <meta charset="UTF-8">
+  <title>SIR Model</title>
+  <link href='https://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Arimo' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Hind:300' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300' rel='stylesheet' type='text/css'>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  
+</head>
+
+<body>
+ <div class="login">
+	<h1>SIR COVID-19 Model Simulation</h1>
+
+     <!-- Main Input For Receiving Query to our ML -->
+    <form action="{{ url_for('simulate')}}" method="POST">
+    	<input type="text" name="country" placeholder="Country" required="required" />
+        <input type="number" step="any" name="effective_contact_rate" placeholder="Effective Contact Rate" required="required" />
+		<input type="number" step="any" name="recovery_rate" placeholder="Recovery rate" required="required" />
+
+        <button type="submit" class="btn btn-primary btn-block btn-large">Simulate</button>
+ 
+    </form>
+    
+   <br>
+   <br>
+   <div> {% block body %}
+    <img src="http://localhost:5000/simulate" />
+   {% endblock %}</div>
+  
+ 
+
+ </div>
+ <div style="position: relative"><p style="position: fixed; bottom: 0; width:100%; text-align: center" >*Effective Contact Rate is defined as transmission rate * contact rate. (Example : 5% transmission rate and 5 contacts a day is 0.05*5 = 0.25) </br>
+  * Recovery rate is defined as 1/day. (Example: 4 day recovery rate 1/4 = 0.25)</br>
+</br>
+</br>
+</br>
+
+
+  <strong >
+    Copyright © 2021 | Yadvendar Singh | <a href="https://www.linkedin.com/in/yadvendarsingh/" class="fa fa-LinkedIn" target="_blank" rel="noopener noreferrer"></a> | <a href="https://www.yadvendarsingh.com/" target="_blank" rel="noopener noreferrer">Portfolio</a>
+</strong>
+</div>
+ 
+  
+
+
+</body>
+</html>
