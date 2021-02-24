@@ -33,7 +33,7 @@
   
   N = S+I+R is the total population, T is the elapsed time from the start date.
 
-  SIR model Implementation
+  SIR model Implementation.
   
   We'll use differential equations to calculate the population change over time.
   
