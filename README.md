@@ -1,4 +1,4 @@
-### SIRModelDeployement
+### SIRModelDeployment
 #### This repo presents you the model deployment solution on aws. The model can be used to simulate covid-19 scenarios across globe.
 
 ### Front end is made using HTML and CSS, backend is made using Flask. The entire model is deployed on AWS and is being used for research.
@@ -33,19 +33,16 @@
   
   N = S+I+R is the total population, T is the elapsed time from the start date.
 
-  SIR model Implementation
+  SIR model Implementation.
   
   We'll use differential equations to calculate the population change over time.
-
-  Preparing data for the model¶
-  We'll start by taking only the canadian population as our data frame.
   
   Effective contact rate is transmission rate * contact rate, so:
   
   5% transmission rate and 5 contacts a day is 0.05*5 = 0.25
   Recovery rate is 1/day
  
-  4 day recovery rate 1/4 = 0.25
+  14 day recovery rate 1/14 = 0.07
 
 <img src='./static/images/homeroute.PNG'>
 <img src='./static/images/output.PNG'>
