@@ -87,15 +87,38 @@ def deriv(state, t, N, beta, gamma):
     
     return dsdt, dIdt, dRdt
 
-def do_plot(country,effective_contact_rate, recovery_rate):
+# The differential equation to define SIR-F Model:
+
+def derivSIRF(state, t, N, beta, gamma, alpha1, alpha2):
+    
+    S, I, R, F = state
+    
+    #change in S population over time
+    dsdt = -beta * S* I / N
+    #change in I population over time
+    dIdt = (beta * S * I*(1 - alpha1) / N) - ((gamma+alpha2) * I)
+    #change in R population over time
+    dRdt = gamma * I
+    #change in Fatalities over time
+    dFdt = (beta * S* I*alpha1 / N) + alpha2 * I
+    
+    return dsdt, dIdt, dRdt, dFdt
+
+
+def do_plot(country,effective_contact_rate, recovery_rate,mortality_rate):
     
     data_loader = cs.DataLoader("input")
     jhu_data = data_loader.jhu()
     #Make use of dataloader to get population of Countries.
     population_data = data_loader.population()
 
+    #probability of direct fatality is kept very low as medicine were quite effective in later stages
+    
+    
+    probability_of_direct_fatality = 0.0001 
     effective_contact_rate = float(effective_contact_rate)
     recovery_rate = float(recovery_rate)
+    mortality_rate = float(float(mortality_rate)/100)
     country = str(country)
 #     print(effective_contact_rate,recovery_rate,country)
 
@@ -106,6 +129,7 @@ def do_plot(country,effective_contact_rate, recovery_rate):
     recovered = 0
     infected = 1
     susceptible = total_population - infected - recovered
+    fatal = 40
 
     # number of days
     # days = len(jhu_data.subset("Canada", province=None))
@@ -122,16 +146,36 @@ def do_plot(country,effective_contact_rate, recovery_rate):
 
     #Build a dataframe
 
-    df = pd.DataFrame({
+    df1 = pd.DataFrame({
         'susceptible': S,
         'infected': I,
         'recovered': R,
         'day': days
     })
 
+
+    ###SIRF MODEL
+    ret = odeint(derivSIRF,
+            [susceptible, infected, recovered, fatal],
+            days,
+            args = (total_population, effective_contact_rate, recovery_rate, probability_of_direct_fatality, mortality_rate))
+
+    S, I , R, F = ret.T
+
+    #Build a dataframe
+
+    df2 = pd.DataFrame({
+        'susceptible': S,
+        'infected': I,
+        'recovered': R,
+        'fatal': F,
+        'day': days
+    })
+
+    plt.style.use('ggplot')
+    fig,axes = plt.subplots(2)
     
-    
-    fig = df.plot(x='day',
+    df1.plot(x='day',
             y=['infected', 'susceptible', 'recovered'],
             color=['#bb6424', '#aac6ca', '#cc8ac0'],
             kind='area',
@@ -139,7 +183,25 @@ def do_plot(country,effective_contact_rate, recovery_rate):
             xlabel='Days',
             ylabel='Population',
             figsize=(15,10),
-            stacked=False)
+            stacked=False,
+        ax=axes[0]
+        )
+
+
+    df2.plot(x='day',
+        y=['infected', 'susceptible', 'recovered', 'fatal'],
+        color=['#bb6424', '#aac6ca', '#cc8ac0', '#F15E3F'],
+        kind='area',
+        title = "SIR-F Model for " + country,
+        xlabel='Days',
+        ylabel='Population',
+        figsize=(15,10),
+        stacked=False,
+        ax = axes[1]
+        )
+
+
+
     
     
 

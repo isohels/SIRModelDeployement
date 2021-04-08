@@ -13,10 +13,11 @@ def simulate():
     country = request.form.get("country")
     effective_contact_rate = request.form.get("effective_contact_rate")
     recovery_rate = request.form.get("recovery_rate")
+    mortality_rate = request.form.get("mortality_rate")
     
-    print(country,effective_contact_rate,recovery_rate)
+    print(country,effective_contact_rate,recovery_rate,mortality_rate)
 
-    fig = do_plot(country, effective_contact_rate, recovery_rate)
+    fig = do_plot(country, effective_contact_rate, recovery_rate,mortality_rate)
 
     return send_file(fig,attachment_filename='plot.png', mimetype='image/png')
 
@@ -26,4 +27,4 @@ def simulate():
 #     app.run(host='0.0.0.0', port=8080)
 
 if __name__ == '__main__':
-    app.run(debug=False)
+    app.run(debug=True)
